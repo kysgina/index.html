@@ -1,0 +1,304 @@
+<body style="background-color:black;" onselectstart="return false" oncontextmenu="return false;" onkeydown="return false;" onmousedown="return false;" onclick="play()" bgcolor="#747064">
+<script>
+    var x = document.getElementById("gina");
+    function play() {
+      x.play();   
+    }
+</script>
+<script type="text/javascript">
+    var currentStyle = 'inline';
+      function blinkSpan(){
+      if(currentStyle=='inline'){
+      currentStyle='none';
+      }else{
+      currentStyle='inline';
+      }
+      document.getElementById('blink').style.display = currentStyle;
+      setTimeout('blinkSpan()',300);
+      }
+      msg = " Hacked by Gina";
+      msg = "" + msg;pos = 0;
+      function scrollMSG() {
+      document.title = msg.substring(pos, msg.length) + msg.substring(0, pos);
+      pos++;
+      if (pos > msg.length) pos = 0
+      window.setTimeout("scrollMSG()",200);
+      }
+      scrollMSG();
+  </script>
+  <script type="text/javascript">
+    (function(){
+      var global = this;
+      var globalName = 'starField';
+      var numberOfStars = 90;
+      var depthDimentsion = 2000;
+      var viewingDepth = 0.0001;
+      var forwardVelocity = 0.3;
+      var d = depthDimentsion*(viewingDepth/100);
+      var planeDepth = depthDimentsion - d;
+      var fv = planeDepth*(forwardVelocity/100);
+      var zMultiplier = (depthDimentsion)/d;
+      var starObjs, starHTML;
+      var posMod, sy, sx, windowCenterY, windowCenterX;
+      var scaleXAdjust, scaleYAdjust;
+      if((document.layers)&&(this.Layer)){
+        starHTML = [
+        '<layer id=\"stars','',
+        '\" left=\"0\" top=\"0\" width=\"1\" height=\"1"',
+        ' bgColor=\"#FFFFFF\"><\/layer>'];
+      }else{
+        starHTML = [
+        '<div id="stars','',
+        '" style="position:absolute;width:1px;overflow:',
+        'hidden;height:1px;background-color:#FFFFFF;',
+        'font-size:1px"><\/div>'];
+      }
+      function compatModeTest(obj){
+        if((document.compatMode)&&
+           (document.compatMode.indexOf('CSS') != -1)&&
+           (document.documentElement)){
+          return document.documentElement;
+        }else if(document.body){
+          return document.body;
+        }else{
+          return obj;
+        }
+      }
+      function getWindowState(){
+        var global = this;
+        var readScroll = {scrollLeft:NaN,scrollTop:NaN};
+        var readSizeC = {clientWidth:NaN,clientHeight:NaN};
+        var readSizeI = {innerWidth:NaN,innerHeight:NaN};
+        var readScrollX = 'scrollLeft';
+        var readScrollY = 'scrollTop';
+        function getWidthI(){return readSizeI.innerWidth;}
+        function getWidthC(){return readSizeC.clientWidth|0;}
+        function getHeightI(){return readSizeI.innerHeight;}
+        function getHeightC(){return readSizeC.clientHeight|0;}
+        function getHeightSmart(){
+            return retSmaller(getHeightI(), getHeightC());
+        }
+        function getWidthSmart(){
+            return retSmaller(getWidthI(), getWidthC());
+        }
+        function setInnerWH(){
+          theOne.getWidth = getWidthI;
+          theOne.getHeight = getHeightI;
+        }
+        function retSmaller(inr, other){
+          if(other > inr){
+            setInnerWH();
+            return inr;
+          }else{
+            return other;
+          }
+        }
+        var theOne = {
+          getScrollX:function(){return readScroll[readScrollX]|0;},
+          getScrollY:function(){return readScroll[readScrollY]|0;},
+          getWidth:getWidthC,
+          getHeight:getHeightC
+        };
+        function main(){return theOne;}
+        function rankObj(testObj){
+          var dv,dhN;
+          if(testObj&&(typeof testObj.clientWidth == 'number')&&
+             (typeof testObj.clientHeight == 'number')){
+            if(((dv = global.innerHeight - testObj.clientHeight) >= 0)&&
+               ((dh = global.innerWidth - testObj.clientWidth) >= 0)){
+              if(dh == dv){
+                return 0;
+              }else if((dh&&!dv)||(dv&&!dh)){
+                return (dh+dv);
+              }
+            }
+          }
+          return NaN;
+        }
+        if((typeof global.innerHeight == 'number')&&
+           (typeof global.innerWidth == 'number')){
+          readSizeI = global;
+          var bodyRank = rankObj(document.body);
+          var rankDocEl = rankObj(document.documentElement);
+          var selEl = null;
+          if(!isNaN(bodyRank)){
+            if(!isNaN(rankDocEl)){
+              if(bodyRank < rankDocEl){
+                selEl = document.body;
+              }else if(bodyRank > rankDocEl){
+                selEl = document.documentElement;
+              }else{
+                selEl = compatModeTest(document.body);
+              }
+            }else{
+              selEl = document.body;
+            }
+          }else if(!isNaN(rankDocEl)){
+            selEl = document.documentElement;
+          }
+          if(selEl){
+            readSizeC = selEl
+            theOne.getWidth = getWidthSmart;
+            theOne.getHeight = getHeightSmart;
+          }else{
+            setInnerWH();
+          }
+        }else{
+          readSizeC = compatModeTest(readSizeC);
+        }
+        if((typeof global.pageYOffset == 'number')&&
+           (typeof global.pageXOffset == 'number')){
+          readScroll = global;
+          readScrollY = 'pageYOffset';
+          readScrollX = 'pageXOffset';
+        }else{
+          readScroll = compatModeTest(readScroll);
+        }
+        return (getWindowState = main)();
+      }
+      var windowState = getWindowState();
+      function readWindow(){
+        scaleYAdjust = (((windowCenterY =
+                (windowState.getHeight() >>1)) - 16)*
+                             zMultiplier);
+        scaleXAdjust = (((windowCenterX =
+                (windowState.getWidth() >> 1)) - 16)*
+                            zMultiplier);
+        sy = windowCenterY + windowState.getScrollY();
+        sx = windowCenterX + windowState.getScrollX();
+      }
+      function getStyleObj(id){
+        var obj = null;
+        if(document.getElementById){
+          obj = document.getElementById(id);
+        }else if(document.all){
+          obj = document.all[id];
+        }else if(document.layers){
+          obj = document.layers[id];
+        }
+        return ((typeof obj != 'undefined')&&
+            (typeof obj.style != 'undefined'))?
+                        obj.style:obj;
+      }
+      function starObj(id, parent, prv){
+        var next,reset;
+        var divClip, div = getStyleObj("stars"+id);
+        var y,x,z,v,dx,dy,dm,dm2,px,py,widthPos,temp;
+        (reset = function(){
+          px = Math.random()<0.5 ? +1 : -1;
+          py = Math.random()<0.5 ? +1 : -1;
+          y = ((Math.random()*Math.random()*
+              scaleYAdjust)+windowCenterY);
+          x = ((Math.random()*Math.random()*
+              scaleXAdjust)+windowCenterX);
+          widthPos = (x + zMultiplier);
+          z = 0;
+        })();
+        z = Math.random()*planeDepth*0.8;
+        function step(){
+          temp = x * (v = d/(depthDimentsion - z));
+          dm = ((dm2 = ((widthPos * v)-temp)|0)>>1);
+          dy = (y * v);
+          dx = (temp);
+        }
+        if(div){
+          if(!posMod){
+            posMod = (typeof div.top == 'string')?'px':0;
+          }
+          divClip =  ((typeof div.clip != 'undefined')&&
+                   (typeof div.clip != 'string'))?
+                           div.clip:div;
+          this.position = function(){
+            step();
+            if(((z += fv) >= planeDepth)||
+               ((dy+dm) > windowCenterY)||
+              ((dx+dm) > windowCenterX)){
+              reset();
+              step();
+              dm = 0;
+            }
+            div.top = ((sy+(py*dy)-dm)|0)+posMod;
+            div.left = ((sx+(px*dx)-dm)|0)+posMod;
+            divClip.width = (divClip.height = dm2+posMod);
+            next.position();
+          };
+        }else{
+          this.position = function(){return;};
+        }
+        if(++id < numberOfStars){
+          next = new starObj(id, parent)
+        }else{
+          next = parent
+        }
+      }
+      function init(){
+        if(!getStyleObj("stars"+(numberOfStars-1))){
+          setTimeout(starField, 200);
+        }else{
+          readWindow();
+          starObjs = new starObj(0, init);
+          init.act();
+        }
+      };
+      init.position = function(){return;}
+      init.act = function(){
+        readWindow();
+        starObjs.position();
+        setTimeout(init.act,50);
+      };
+      init.act.toString = function(){
+        return globalName+'.act()';
+      };
+      init.toString = function(){
+        while(global[globalName])globalName += globalName;
+        global[globalName] = this;
+        return globalName+'()';
+      };
+      for(var c = numberOfStars;c--;){
+        starHTML[1] = c;
+        document.write(starHTML.join(''));
+      }
+      setTimeout(init, 200);
+    })();
+    </script><div id="stars89" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1118px; left: 290px;"></div><div id="stars88" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 880px; left: 818px;"></div><div id="stars87" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 441px; left: 39px;"></div><div id="stars86" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1159px; left: 543px;"></div><div id="stars85" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 817px; left: 498px;"></div><div id="stars84" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 462px; left: 548px;"></div><div id="stars83" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 187px; left: 360px;"></div><div id="stars82" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 379px; left: 676px;"></div><div id="stars81" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1378px; left: 637px;"></div><div id="stars80" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 91px; left: 538px;"></div><div id="stars79" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1472px; left: 127px;"></div><div id="stars78" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 78px; left: 517px;"></div><div id="stars77" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 538px; left: 165px;"></div><div id="stars76" style="position: absolute; width: 4px; overflow: hidden; height: 4px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1149px; left: 324px;"></div><div id="stars75" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 123px; left: 460px;"></div><div id="stars74" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1204px; left: 373px;"></div><div id="stars73" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 805px; left: 857px;"></div><div id="stars72" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 366px; left: 631px;"></div><div id="stars71" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 824px; left: 742px;"></div><div id="stars70" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 907px; left: 461px;"></div><div id="stars69" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 355px; left: 614px;"></div><div id="stars68" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 990px; left: 462px;"></div><div id="stars67" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1413px; left: 473px;"></div><div id="stars66" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1473px; left: 486px;"></div><div id="stars65" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1515px; left: 828px;"></div><div id="stars64" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 885px; left: 692px;"></div><div id="stars63" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1414px; left: 485px;"></div><div id="stars62" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 883px; left: 443px;"></div><div id="stars61" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 256px; left: 376px;"></div><div id="stars60" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 788px; left: 560px;"></div><div id="stars59" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 829px; left: 675px;"></div><div id="stars58" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 117px; left: 616px;"></div><div id="stars57" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 862px; left: 470px;"></div><div id="stars56" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 435px; left: 481px;"></div><div id="stars55" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 837px; left: 680px;"></div><div id="stars54" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 274px; left: 290px;"></div><div id="stars53" style="position: absolute; width: 5px; overflow: hidden; height: 5px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1625px; left: 772px;"></div><div id="stars52" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 922px; left: 354px;"></div><div id="stars51" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1202px; left: 230px;"></div><div id="stars50" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 51px; left: 438px;"></div><div id="stars49" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 960px; left: 764px;"></div><div id="stars48" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 251px; left: 453px;"></div><div id="stars47" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1024px; left: 216px;"></div><div id="stars46" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1038px; left: 786px;"></div><div id="stars45" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 260px; left: 473px;"></div><div id="stars44" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1040px; left: 221px;"></div><div id="stars43" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 836px; left: 89px;"></div><div id="stars42" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 144px; left: 527px;"></div><div id="stars41" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 997px; left: 495px;"></div><div id="stars40" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 825px; left: 445px;"></div><div id="stars39" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 631px; left: 336px;"></div><div id="stars38" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 793px; left: 394px;"></div><div id="stars37" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 697px; left: 422px;"></div><div id="stars36" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 773px; left: 396px;"></div><div id="stars35" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1174px; left: 63px;"></div><div id="stars34" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 993px; left: 514px;"></div><div id="stars33" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 901px; left: 704px;"></div><div id="stars32" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 849px; left: 455px;"></div><div id="stars31" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 143px; left: 422px;"></div><div id="stars30" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 781px; left: 533px;"></div><div id="stars29" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 985px; left: 478px;"></div><div id="stars28" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 966px; left: 486px;"></div><div id="stars27" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1253px; left: 509px;"></div><div id="stars26" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 932px; left: 231px;"></div><div id="stars25" style="position: absolute; width: 5px; overflow: hidden; height: 5px; background-color: rgb(255, 255, 255); font-size: 1px; top: 700px; left: 534px;"></div><div id="stars24" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1406px; left: 284px;"></div><div id="stars23" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 928px; left: 309px;"></div><div id="stars22" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 665px; left: 644px;"></div><div id="stars21" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 974px; left: 497px;"></div><div id="stars20" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1745px; left: 780px;"></div><div id="stars19" style="position: absolute; width: 4px; overflow: hidden; height: 4px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1380px; left: 60px;"></div><div id="stars18" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1051px; left: 282px;"></div><div id="stars17" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1175px; left: 22px;"></div><div id="stars16" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 875px; left: 680px;"></div><div id="stars15" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1001px; left: 568px;"></div><div id="stars14" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1518px; left: 115px;"></div><div id="stars13" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 540px; left: 778px;"></div><div id="stars12" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 871px; left: 663px;"></div><div id="stars11" style="position: absolute; width: 2px; overflow: hidden; height: 2px; background-color: rgb(255, 255, 255); font-size: 1px; top: 558px; left: 534px;"></div><div id="stars10" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1013px; left: 475px;"></div><div id="stars9" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 712px; left: 137px;"></div><div id="stars8" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 888px; left: 450px;"></div><div id="stars7" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 759px; left: 563px;"></div><div id="stars6" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 467px; left: 455px;"></div><div id="stars5" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1567px; left: 267px;"></div><div id="stars4" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 487px; left: 433px;"></div><div id="stars3" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 674px; left: 345px;"></div><div id="stars2" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1022px; left: 565px;"></div><div id="stars1" style="position: absolute; width: 1px; overflow: hidden; height: 1px; background-color: rgb(255, 255, 255); font-size: 1px; top: 853px; left: 628px;"></div><div id="stars0" style="position: absolute; width: 3px; overflow: hidden; height: 3px; background-color: rgb(255, 255, 255); font-size: 1px; top: 1512px; left: 489px;"></div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<style> body{ } @font-face { font-family: slayer3; src: url(https://watchdogsfont.com/font/PixelOperatorMono.ttf); } </style>
+  <table width="100%" height="100%"> <tbody><tr><center>
+    <br><img src="girl-energy.gif" width="800px" height="450">
+ <center><br></center>
+ <font color="red" size="5" face="Iceland">Kanma, Aldanma.</font> 
+ <br><font face="slayer" size="12" color="red"><span class="blink"><font color="red">Hacked by Gina</font><br>
+    <font face="slayer2" size="5" color="red"><span class="blink"><font color="white"></font><font face="slayer3" size="5" color="red"><span class="blink"><font color="white"> Çürümüş kalbim, nasıl oldu geldin?</font>
+    <br>
+    <br>
+</span><br><br>
+<a style="text-decoration:none;" target="_blank" href="https://instagram.com/lxn.gina" rel="noopener noreferrer"> <font color="white" size="6" face="Iceland"><font face="Denk One" size="5" style="color: white; text-shadow: 0px 1px 6px white;background:url('https://media.giphy.com/media/eYRGWfchREFUUlXT7P/giphy.gif');">Instagram: lxn.gina</font><br>
+<center<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <font face="lxn.gina" size="5" color="red"><span class="blink"><font color="white">THE SYSTEM IS UNSAFE</font>
+ </span></font></center><font face="lxn.gina" size="5" color="red"><br>
+
+
+</font><script src="//cdn.jsdelivr.net/npm/eruda"></script></body>
